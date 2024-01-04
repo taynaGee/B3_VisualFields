@@ -6,3 +6,5 @@ B3_10_2 <- read_excel("B3_combination_ptnames_10-2.xlsx")
 B3_pt_names <- read_excel("B3 pt names.xlsx")
 
 #Join the two sheets so that all patients have Study IDs
+B3_102 <- left_join(B3_10_2, B3_pt_names, by = c("Patient First Name", "Patient Last Name", "Patient ID"))
+
