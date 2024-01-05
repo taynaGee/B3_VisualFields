@@ -1,5 +1,6 @@
 #Load in spreadsheet with only 10-2 data
 library(readxl)
+library(tidyverse)
 B3_10_2 <- read_excel("B3_combination_ptnames_10-2.xlsx")
 
 #Load in spreadsheet with only pt names and Study IDs
@@ -18,14 +19,19 @@ uid <- B3_102_all %>% distinct(`Study ID`)
 
 
 #Load in spreadsheet with study eye only & visit dates
-B3_102_rta <- read_excel("B3_102_StudyEye_VisitDates.xlsx")
+B3_102_rta <- read_excel("B3_102_StudyEye_VisitDates.xlsx") %>%
+  select("Study ID", "Perimetry Exam Date",
+         "MD in dB", "MD Inferior in dB", "MD Superior in dB", "PSD in dB")
+
+
+
+write_csv(B3_102_rta)
 View(B3_102_rta)
 
-#Converting date column
+B3_102_rta %>% group_by(`Study ID`,
+                        `Visit Type`) %>% summarize(n = n())
 
-B3_102_rta$`Perimetry Exam Date` <- as.Date(B3_102_rta$`Perimetry Exam Date`, format = '%m%d%y')
 
-unique_dates <- unique(B3_102_rta[, c("Study ID", "Perimetry Exam Date")])
 
 #Calculate the average `MD in dB` for each patient/ visit
 
